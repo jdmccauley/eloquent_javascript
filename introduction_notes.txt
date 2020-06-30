@@ -1,0 +1,19 @@
+Eloquent Javascript 3rd Edition Notes
+
+Introduction
+[For reference, I'll write code between these symbols: ``]
+	• Javascript was introduced in 1995 to add programs to web pages in Netscape Navigator browser
+		○ Now used in most browsers
+	• Javascript has nothing to do with the Java language, it was just named that to catch the hype of Java at the time
+	• At some point, Javascript was standardized so all software claiming to use Javascript would be talking about the same language
+		○ This standard Javascipt is called the ECMAScript standard, after Ecma International who did the standardization
+		○ ECMAScript = Javascript
+	• Javascript is super flexible, almost too much so
+		○ Debuggung can take a while
+		○ But, since it's so flexible, it can do more than some other languages by a long shot
+	• This book teaches the 2017 version of Javascript
+	• MongoDB and CouchDB use Javascript for scripting and query
+	• Node.js lets you script in Javascript outside of the browser
+	• This book has live examples, that's great
+		○ Press 'ctrl+enter' to run a cell. Just like a python notebook.
+	• `console.log()` is how to print to the console in the browser
