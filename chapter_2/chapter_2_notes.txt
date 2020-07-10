@@ -1,0 +1,157 @@
+Eloquent Javascript 3rd Edition Notes
+
+Chapter 2
+Program Structure
+
+	• Code that produces a value is called an 'expression'
+	• Expressions can be nested
+	• A 'statement' is a complete and functioning block, ending in a semicolon ';'
+	• For example, here is a statement containing one expression:
+		○ `1;`
+	• 'side effects' are changes made from statements that affect further statements in the program
+	• A semicolon is not always needed in a statement, but it's complicated and is best practice to just avoid trying
+Bindings
+	• 'binding' or 'variables' are how to store values
+		○ 'binding' can be seen as 'declaration' of a variable
+	• `let` indicates that a binding is to occur
+		○ `let caught = 5 * 5;`
+		○ This binds the value 25 to the variable 'caught'.
+	• Once a binding has been defined, the name of the variable can be used in expressions
+	• When a binding points to a value, the value is not permanently assigned to the variable. When another 'variable_name = value'; statement is made, the value of the variable is changed.
+[What's the point of the `let` in the code? I can still get `console.log(var)` to print the value when I just run `var = value`]
+	• Bindings are pointers to values, therefore multiple variables can be bound to the same value
+	• Defining a binding wihtout a value returns undefined
+	• Multiple bindings can be done with the same `let`:
+		○ `let one = 1, two = 2;`
+	• `var` and `const` can also be used to make bindings, where `var` is short for 'variable', and `const` is short for 'constant'. 
+		○ This book will discuss the difference between 'let' and 'var' later, and use 'let' most of the time.
+	• `const` bindings cannot have the values modified later.
+Binding Names
+	• Binding names can be anything that isn't a 'keyword' or start with a number. Starting with '$' or '_' is fine, all other special characters are not.
+	• 'keywords' are those used for functions and cannot be used as binding names. Such as:
+		○ Class, const, delete, do, return, true… it’s a long list
+		○ You'll get a syntax error if you try to do this, so no reason to memorize all of the keywords.
+The Environment
+	• Bindings exist within an 'environment'
+Functions
+	• Many values in the default environment have type 'function'
+	• A 'function' is a program wrapped in a value
+	• For example:
+		○ `prompt("Enter something please");`
+		○ This uses the binding 'prompt' whose value is a function to make a dialog box in the browser
+	• Executing a function is called 'invoking', 'calling', or 'applying'
+	• Functions are called by putting `()` after the function name
+	• Values passed to a function are called 'arguments'
+	• The prompt function isn't used much anymore, since you can't control what the box looks like
+		○ It's still useful for debugging and testing
+	• `console.log()` is a function to print text to the output device (most likely the browser console)
+	• Console is hidden in the browser most of the time. Just go to 'developer tools' or something similar in the browser to see the console
+	• Note: most binding names cannot have '.' in the name, but console.log does because it takes the 'log' property from the value in the 'console' binding. More on this later.
+		○ Like console is a class and log is a property of the class.
+Return Values
+	• Showing a dialog box or writing text to sreen is a 'side effect'
+	• Functions can produce values too, not just have side effects
+	• When a function produces a value, it's when the function 'returns' the value
+Control Flow
+	• Statements are typically executed from top to bottom of the program
+	• Side note: to get a number from a prompt, use `Number(prompt());`
+		○ This is because the value for the prompt function is always a string
+Conditional Execution
+	• 'conditional execution' is when a program performs an action based on a condition
+	• The 'if' statement:
+		○ `if (condition){
+			code;
+		};
+		○ Example:
+			§ `if (!Number.isNaN(my_number)){
+				console.log("Your number is" + my_number);
+			}
+		○ That checks if the variable is of type number but not NaN
+		○ `Number.isNaN` is a Javascript function that returns 'true' if the argument is 'NaN'
+	• 'blocks' are the form of statements encased in braces {}
+	• You can make an if statement without braces if the statement is one line:
+		○ `if (1 + 1 == 2) console.log("nice");`
+		○ Try not to do this though, brackets are more clear
+	• The if chain:
+		○ `if (condition){
+			code;
+		} else if (condition){
+			code;
+		} else {
+			code;
+		}
+	• You can put the 'else if' and 'else' in different lines as the '}', this example above is just the format introduced in the book. Saves a line I guess.
+While and Do Loops
+	• Looping is a great way to run the same code multiple times
+	• While loop:
+		○ `while (condition){
+			code;
+		}
+		○ Runs until the condition is false
+	• Like any language, don’t make an infinite loop!
+	• Do loop: this always runs at least once, and tests after the first execution
+		○ `do {
+			code;
+		} while (condition);
+		○ That runs at least once until the 'while' condition is false
+Indenting Code
+	• White space in javascript doesn't matter, so indent all you want
+	• Indenting for blocks like any other language is a good idea
+For Loops
+	• For loops are a great way to perform a loop 'for' a set number of iterations
+	• The for loop:
+		○ `for (let number = 0; number <= 12; number = number + 2){
+			console.log(number);
+		}`
+	• Requirements for the for loop (inside the parentheses):
+		○ An initialization statement (for the counter, done with a binding)
+		○ A condition to check whether the loop should continue or not
+Breaking Out of a Loop
+	• The `break` function is another way to end a loop
+	• It's useful to include some 'if' statement that runs 'break' in a loop to save the program from an infinite loop
+	• Otherwise, the way to stop an infinite loop is to close the tab of a browser or close the whole browser itself
+	• `continue` is a way to run the next iteration of the loop
+		○ Useful if stuck in some part of the loop in some iteration
+			§ Or a nested loop
+Updating Bindings Succinctly
+	• Like in python, you can reduce code in variable updates
+	• For example:
+		○ `counter = counter + 1;`
+		○ Is the same as:
+		○ `counter += 1;`
+	• Follow the same format for subtraction, multiplication, and division
+	• What's also great is that you can use the syntax from C for adding one or subtracting one:
+		○ `counter++;` and `counter--;`
+		○ I really like this, I'm glad it's part of javascript
+Dispatching on a Value with Switch
+	• Javascript has this `switch` function that works like a bunch of 'if' statements, and is inhereted from C
+	• Here's how it works:
+		○ `switch (prompt("What is the weather like?")) {
+			case "rainy":
+				console.log("Remember to bring an umbrella.");
+				break;
+			case "sunny":
+				console.log("Dress lightly.");
+				break;
+			default:
+				console.log("Unknown weather type!");
+				break;
+		}
+	• You can have any number of case labels inside the block
+	• Switches start with the value initially given to them, or with the 'default' case
+	• It runs until a 'break' statement
+		○ Very important to remember
+Capitalization
+	• Binding names cannot have spaces
+	• With variable names containing multiple words, it is standard practice to just capitalize every word except the first
+		○ Ex: myLittleVariable
+		○ I don't like this, I'm going to use the '_' like I have been doing in other languages
+	• Note that the 'Number' function has the first letter capitalized, and this is because it is a 'constructor'. More on that later.
+Comments
+	• Start a comment with '//'
+	• For multiple line comments, start with '/*' and end with '*/'
+Exercises
+I'll work on these in a directory named 'chapter_2'.
+One way to run examples is to save the script as an html file, and open in browser (view console if necessary).
+I would like to get NodeJS started on my machine to run scripts from the terminal, so I'll try that.
+Update: in Powershell or Bash, just run `node script_name.js` and the console prints to the screen.

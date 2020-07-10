@@ -1,0 +1,184 @@
+Eloquent Javascript 3rd Edition Notes
+
+Chapter 3
+Functions
+
+	• Turning a program into a value is invaluable, and this is what functions do
+	• Functions are a way to reduce repetition, and should be used for that reason
+Defining a Function
+	• Defining a function is similar to a binding, where the value of the binding is the function
+	• Here's an example:
+		`const square = function(x){
+			return x * x;
+		};`
+		○ Now the binding 'square' is a function
+	• Functions are started with the keyword 'function', are given a set of 'parameters' in parentheses, and include statements in the 'body' between braces {}.
+	• Functions can have infinite parameters or zero, but the parentheses must be includes in the function binding
+	• Functions that produce values must have a 'return' statement. This lets you set some binding to a called function, and the binding becomes the returned value.
+	• If the function does not return a value or there is no value to return, the function returns 'undefined' when called.
+	• Calling a function with parameters requires for some arguments to be passed when calling the function
+	• Regardless of whether a function has parameters, it is called by:
+		`func_name();`
+	• DON'T FORGET TO INCLUDE THE PARENTHESES WHEN CALLING A FUNCTION
+Bindings and Scopes
+	• Every binding has a scope, which is the part of the program that the binding can be accessed
+	• Bindings in a program outside of functions or blocks are 'global', and can be accessed anywhere in the program
+	• Bindings in functions have a 'local' scope, in that they are only accessible in the function itself
+	• Bindings with 'let' and 'const' in blocks like 'if' and 'for' have a local scope and cannot be accessed later in the program
+		○ Bindings with 'var' however are global even if bound in a block
+		○ 'var' is still local in functions though
+		○ This is because 'var' is from an old version of javascript. 'let' is the current formal way to make bindings.
+	• Global scope bindings can be accessed in functions and blocks still
+	• When there are multiple bindings for the same binding name, a function uses the value for the binding done locally in place of the global value
+		○ This is why you can have a parameter in the function named 'my_var' and pass your own 'my_var' into the function later
+Nested Scope
+	• When there are nested blocks or functions, the bindings done within the nested regions are only local to the nested region, not in the parent region
+	• This is important to keep in mind when making nested loops or functions
+	• The approach to binding visibility here is called 'lexical scoping'
+Functions as Values
+	• Functions in javascript have the unique capability of following the binding rules they were bound with. This means that functions must behave in the same way as any other binding, not be some special class of binding.
+	• Keeping this in mind, if you bind a function with 'let', it can therefore be changed to some different value later in the program
+	• Ex:
+	`
+	let myfunc = function(){
+	  console.log("Look this is a test!");
+	};
+	myfunc();
+	myfunc = function(){
+	  console.log("And here is another test!");
+	};
+	myfunc();
+	`
+	Output:
+	Look this is a test!
+	And here is another test!
+Declaration and Notation
+	• 'Declaring' a function has a special meaning, and it is different from binding
+	• Function 'declaration' in javascript:
+		`function func_name(params){
+			code;
+		}`
+	• This is important to note, especially because these declarations work regardless of their declaration in the code. If a function is declared at the bottom of a script, it still works when called at the top of the script. This is different than binding a function, which only works after its binding place in the program.
+Arrow Functions
+	• There is a third way to make functions (this is unique to javascript).
+	• Function bindings can be done without the keyword 'function', and a '=>' is used in its place. The important note is that the parameters are given before the arrow.
+	• Ex:
+		`
+		const power = (base, exponent) => {
+		  let result = 1;
+		  for (let count = 0; count < exponent; count++) {
+		    result *= base;
+		  }
+		  return result;
+		};
+		`
+	• When there is only one parameter, the parentheses aren't necessary
+	• When there are no parameters, empty parentheses must be used:
+		`const myfunc = () => {
+			do_this;
+		};
+	• These arrow functions do mostly the same thing as the other ways to declare functions, except one thing (will tell in Chapter 6).
+	• The arrow functions were made in 2015 as a way to bind functions with fewer characters
+	• Lastly, and most importantly: when an arrow function only has one statement, 'return' is implied and does not need to be stated
+		○ An original function of:
+		`let myfunc = function(){
+		return (do_this);
+		};
+		`
+		Can be reduced to:
+		`
+		let myfunc = () => do_this;
+		`
+		○ This is the real power of the arrow functions
+The Call Stack
+	• When functions are called, the computer must go back in the program to the function binding/declaration, run it, and then go back to its place in the program
+	• These locations are called the 'call stack', and this stack is limited to how much memory the machine has
+	• When the call stack is too large for the machine, it returns an error
+		RangeError: Maximum call stack size exceeded (line x in function x)
+	• Don't let this happen, but if it does, that's why
+Optional Arguments
+	• You can pass more arguments to a function than are needed, and javascript does not give an error. It just uses the number of arguments it needs, and drops the rest.
+		○ If you pass too few, you get 'undefined' returned.
+			§ There is a way around this though.
+			`function myfunc(a, b){
+				if (b == undefined) return -a;
+				else return a - b;
+			}`
+		○ See, you can make an 'if' block in the function to do something if too few arguments are passed
+	• At the same time, you can set a default value, and let the function run with the default value if too few arguments are given:
+		`function myfunc(a, b = 2){
+			return a - b;
+		}`
+		○ See, this can run with one or two arguments
+	• There are ways to see all of the arguments that are passed to the function, more on that later.
+Closure
+	• Because you can both 'declare' and bind a function, this leaves room for having a 'local' binding of a 'declared' function
+		○ This can work in the case that a function is declared such that the return is another function
+		○ In this case, when a binding is made to the declared function, it's binding value is the returned function
+		○ An example of this will show how this can be used, and why it's helpful. I'll write my own based on the example from the book
+	• The act of referencing a specific instance of a local binding in an enclosing scope is called 'closure'
+		○ In other terms, this is using a local binding of a function such that the function's original script is not applicable, only the local scoped binding of the function is functional (in that binding)
+	• Example with arrow notation (as the book shows):
+	`
+	function multiplication(n){
+		let factor;
+		return (factor) => n * factor;
+	}
+	let twice = multiplication(2);
+	console.log(twice(4));
+	`
+	Output: 8
+	• Example with brace notation:
+	`
+	function multiplication(n){
+		let factor, number;
+		return function number(factor){
+			return (n * factor);
+		};
+	}
+	`
+	• I guess one way to think of this is the 'closure' of the original function as a result of the new binding
+	• Regardless, this is a powerful tool
+	• I wrote closure.js to show how this works
+Recursion
+	• A function that calls itself is 'recursive', and it is okay as long as it doesn't overflow the stack
+	• In most javascript implementations, recursion is slower than looping, so honestly making loops just makes more sense
+	• In a way, you can write a recursive function to work like a loop, and the logic in the recursion may make more sense to read than a loop
+	• For example: finding the value of an exponent:
+	`
+	function power(base, exponent){
+		if (exponent == 0) {
+			return 1;
+		} else {
+			return base * power(base, exponent -1);
+		}
+	}
+	`
+	This works by performing the multiplication recursively until it reaches 0 as the exponent.
+	• This will have to be something I practice, since it's new to me
+	Note: you MUST return the function itself to perform recursion.
+		Ex:
+		func_name(){
+			func_name();
+		}
+		Is incorrect, but this is correct:
+		func_name(){
+			return(func_name());
+		}
+	See that the example from the book does return the function, not just do 'base * power(base, exponent, -1);'
+Growing Functions
+	• Sometimes it's tempting to turn some program into a function so it can be used later
+	• This sounds like a great idea, but it is an even better idea for later users to break the function up into separate functions for each logical step
+		○ This makes the code more reusable, and can make the logic flow more easily
+Functions and Side Effects
+	• Functions can be seen as either those that return values or those that return side effects
+	• Functions that return values are easier to combine in ways than functions that just make side effects
+	• 'pure' functions are those that do not produce side effects and only return a value
+		○ They are easy to test since  you can just console.log() to check the value
+	[I get the impression that this book is into eloquent code, not just code that works.
+Summary
+	• Understanding the scope of a function is imperative
+	• Making functions do specific things makes them more reusable and easy to follow
+	• Bindings with 'var' can be in a function scope or global, depending on the context
+		○ So just use 'let' in most cases
+Exercises will be included in the directory.
