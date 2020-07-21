@@ -1,0 +1,214 @@
+Eloquent Javascript 3rd Edition Notes
+
+Chapter 4
+Data Structures: Objects and Arrays
+
+	• Data structures are built from Numbers, Booleans, and strings
+	• Objects allow you to group many data types to a single entity
+
+The Weresquirrel
+	• The book tells a story here to explain Objects
+	• The story is a man named Jacques who turns into a squirrel every night from 8 to 10 PM
+	• He starts taking data on events that may help determine what triggers his transformation, and there are many types of data
+	• He needs a data structure to store all of this data
+Data Sets
+	• 'arrays' are a way to store a list of Numbers
+		○ They are bound in brackets [] and each number is separated by commas
+	• Elements of the array can be called by its 'index': `array_name[element_index]`
+	• Ex:
+	`let my_list = [2, 3, 4, 5];
+	console.log(my_list[0]);`
+	Output: 2
+Properties
+	• We've seen 'string.length' output a value
+		○ This is calling a 'property', where 'length' is a property of a string
+	• Almost all javascript values have properties, with the exception of 'null' and 'undefined'
+	• You can access a property with '.property' or '[property]'
+	• Any valid binding name works for the dot notation, but the bracket notation can be used for properties such as '2' and 'John Doe' (obj[2] and [obj["John Doe"])
+	• Array elements are stored as a 'property' of the array
+	• To get the number of elements in an array, check it's length: `array_name.length`
+Methods
+	• Bindings can contain functions as properties as well
+	• For example, every string has the property 'toUpperCase' that can be invoked by calling `string_name.toUpperCase()`
+	• Properties that are associated to bindings are called 'methods' of the values they belong to
+	• Some array methods:
+		○ `array.push(number)`
+			§ This adds the number to the next available index at the end of the array
+		○ `array.pop()`
+			§ This outputs and removes the last index in the array
+	• These array methods are operations on the 'stack', which is a data structure that allows you to push and pop values such that the thing added last is removed first
+		○ Stacks are very common in programming
+Objects
+	• Jacques in the story wants to store multiple types of data to one data structure, so he's using an 'object'
+	• 'objects' are collections of properties, and they are bound using braces, and the properties are separated by commas (the last property will not have a comma).
+		○ Each property is defined after a colon ':'
+	• Ex:
+	`let day1 = {
+		squirrel: false,
+		events: ["work", "touched tree", "pizza", "running"]
+	};
+	console.log(day1.squirrel);
+	console.log(day1.wolf);
+	day1.wolf = false;
+	console.log(day1.wolf);
+	`
+	Output:
+	false
+	undefined
+	false
+	• Properties that aren't valid binding names must be quoted
+		○ Such as the binding: `"touched tree": "Touched a tree"`
+	• Reading properties that don't exist return 'undefined'
+	• Assigning/reassisning a property can be done with the '=' operator
+		○ Ex: obj.property = value;
+	• Deleting properties can be done with `delete obj.property;'
+	• To check whether a property of an object exists, use the 'in' operator
+		○ Ex:
+		`console.log("dog" in day1);`
+		Output: false
+		○ This is different than having the property existing but undefined
+	• To list the properties of an object, use `Object.keys(object_name)`
+		○ This returns an array of strings, where the strings are the property names
+	• To copy the properties from one object to another (and add more if you want), use:
+		`object_name.assign(object_name, other_object_or_another_bracket_set_of_properties);
+	• To bind an array of objects to an object, encase the objects in brackets and separate them with commas
+		○ Ex:
+		`let jounral = [
+			{events: ["test", "test2"],
+			squirrel: false},
+			{events: ["test3", "test4"],
+			squirrel: true}
+		];
+		`
+Mutability
+	• Booleans, Numbers, and Strings are not mutable
+		○ You can assign new values to these, but you cannot directly edit the current values
+			§ Such as string[2] = "c" if it's already "dog"
+	• Objects are mutable
+	• When you set an object equal to another object, you assign the new object to reference the same data as the original object
+		○ So any changes to the original object are reflected in the new object
+		○ When this is true, the objects are said to have the same 'identity'
+	• It seems like object.assign might be a way to not refernce the same data
+	• 'let' allows you to change the value that a binding points to
+	• 'const' bindings of objects can let you declare new binding values to properties, but you cannot make a new bindind of the object from scratch
+		○ Ex:
+		`const score = {visitors: 0, home: 0};
+		score.visitors = 1;
+		//This is fine
+		score = {visitors: 1, home: 1};
+		//This is not fine
+		`
+	• When you compare objects with '==', the 'identity' of the objects is tested
+		○ So the objects must refernece the same data to be 'true'
+		○ If the values are the same but the referneces are not, this returns 'false'
+The Lycanthrope's Log
+	• This continues the story of the squirrel man Jacques
+	• When functions include parameters that are objects, you can include lists when passing arguments to the function
+	• For example:
+	`let journal = [];
+	function addEntry(events, squirrel){
+		journal.push({events, squirrel});
+	}
+	addEntry(["work", "touched tree", "pizza", "running", "television"], false);`
+	• Now beginning the analysis of the journal log to understand what leads Jacques to become a squirrel:
+		○ 'Corrleation' is a measure of dependence between two variables
+			§ This typically, in statistics, corresponds to a value between -1 and 1
+	• To measure the correlation between two Boolean variables, you can use the 'phi coefficient'
+		○ This is a computation dependent on a frequency table for false/false, false/true, true/false, and false/false
+            ϕ =	(n11n00 − n10n01)/√ (n1•n0•n•1n•0)
+		○ Where the variables in the bottom of the fraction correspond to the sum of each case boolean/boolean
+	• The example continues, and I'll let the math stay in the book since it's dependent on the example. Here are some notes from the math:
+		○ 'Math.sqrt()' is a default function that calculates the square root of an argument
+		○ Arrays have the method 'includes()' to check whether a value exists in the array
+	• Here is a typical for loop when dealing with arrays:
+		`for (let i = 0; i <= array.length; i++){
+			let element = array[i];
+			code;
+		}`
+	• Alternatively, here's a simpler version:
+		`for (let element of array) {
+			code;
+		}`
+Further Arrayology
+	• Remember that the methods 'push' and 'pop' add and remove elements to the end of an array
+	• To add and remove elements at the start of an array, use 'shift' and 'unshift'
+	• To return the index of a specified element, use 'indexOf(element)'
+		○ If multiple of the element, you can use a function to return the index of the element starting from the end of the array: 'lastIndexOf(element)'
+		○ Both of these functions accept a second argument to indicate which index to start searching from
+	• 'slice' takes arguments of a start and end index, and returns an array of elements between the arguments (including indices for the agruments)
+		○ If only one argument given, returned array includes indices from the argument onward to the end of the array
+	• 'concat' lets you concatenate arrays, just like you can use '+' to concatenate strings
+		○ If second agrument is not an array, it is added as a single element
+Strings and their Properties
+	• New properties cannot be added to strings outside of those default to the string data structure
+		○ Strings are not objects, so they can't just have any property
+	• 'slice' and 'indexOf' methods can be performed on strings just like arrays
+		○ 'index of' can be done for multiple characters though:
+		`console.log("check out this cool song".indexOf("oo"));`
+		This is valid. Output: 16
+	• 'trim' method removes whitespace and tab/newline characters
+	• 'padStart' method accepts two arguments, which lets you specify a number and a string, such that you can add the string to the start of the original string by the number of times
+	• 'join' method lets you add strings to the end of your string
+	• 'split' method lets you split the string into an array at the specified character or string argument
+	• 'repeat' lets you repeat a string by a number of times given as an argument
+	• You can access characters in a string by their element
+Rest Parameters
+	• Sometimes it can be useful to write or use a function that accepts any number of arguments
+	• In these cases, you need to add three dots to your argument
+		○ For example, the Math.max function:
+		`function max(...numbers) {
+		  let result = -Infinity;
+		  for (let number of numbers) {
+		    if (number > result) result = number;
+		  }
+		  return result;
+		}`
+	• This type of parameter in a function declaration is a 'rest parameter'
+	• You can also use this when calling a function:
+		`let my_list = [1,2,3,4,5,6,7,8,9];
+		console.log(max(…my_list));`
+	• This rest parameter can be used in addition to other parameters when calling as well:
+		`console.log(max(10, …my_list, 11));`
+The Math Object
+	• So far I've called a number of functions from 'Math', and I haven't said whether Math is a library or a program… it's actually an object
+	• The 'Math' object is a default object with tons of functions, and it was made that way so other functions can be written without overwriting default ones
+		○ Say you wanted to make a function 'max'. You can do this while still keeping the Math.max function. Otherwise, when you declare your own 'max' function, you would have overwritten the default 'max' function.
+	• This was a decision by the developers since you can overwrite declared functions and those bound with 'var'. Using 'let' and 'const' for functions does give an error if the function already exists thankfully.
+	• Some useful Math object functions:
+		○ cos, sin, tan, acos, asin, atan
+			§ These are self explanatory
+		○ PI (no parentheses to call this one) returns the value of pi
+		○ random
+			§ This returns a pseudorandom number between 0 and 1 (includes 0, not 1)
+		○ floor
+			§ Rounds down to a whole number
+		○ ceil
+			§ Rounds up to a whole number
+		○ round
+			§ Rounds to the closest whole number
+		○ abs
+			§ Returns the absolute value
+Destructuring
+	• When writing functions that take arrays as parameters, it can be annoying and burdnesome to write the entire function using the array indicies as variables
+	• 'desctrucuting' the array is a way to turn the array indices into binding names, so the function can be written more more clearly
+		○ To do this, make square brackets in the parameter field and include variable names
+		Ex:
+		`function table([t1, t2, t3]){
+			t1 do_something;
+			…
+		}`
+	• You can also do this for curly brackets when the parameter is an object
+JSON
+	• Sending an object in javascript to another machine could technically be done by sending the physical memory card with a list of memory addresses…but that would be very cumbersone
+	• The alternative is to 'serialize' the object into a file, being the JSON (Javascript Object Noration), in javascript
+		○ This means converting the object in memory into a series of bytes and saving that series in a file
+	• A JSON is written like an object, without the object name
+		○ Ex:
+		`{
+		"squirrel": false,
+		"events": ["work", "pizza", "ran"]
+		}
+	• JSON.stringify() lets you convert an object into JSON format as a string
+	• JSON.parse() lets you take a JSON string and convert it into a value
+
+Exercises included in this directory.
