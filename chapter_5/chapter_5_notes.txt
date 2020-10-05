@@ -1,0 +1,98 @@
+Eloquent Javascript 3rd Edition Notes
+
+Chapter 5
+Higher-Order Functions
+
+	• Unfortunately, the larger a program gets, the more bugs it tends to obtain
+	• Reducing the program into multiple calls of very simple, clean functions can reduce the possibility of bugs
+		○ If the functions are written error-free, of course
+
+Abstraction
+	• Abstraction is when you can compile a well-understood protocol into a single idea, and then reuse that idea
+		○ It is the art of hiding the details while still making sense
+	• This is what a function does, it uses an abstract idea of 'function_name' and you can use that function instead of writing the entire process out every time
+Abstracting Repetition
+	• Reuse functions as much as possible
+	• It is possible to pass a function as a parameter to another function
+		○ Intersting idea, and may be useful to start using
+Higher-Order Functions
+	• 'higher-order functions' are functions that operate on other functions by taking them in as arguments or returning them
+		○ So passing a function as an argument or returning a function
+	• These higher-order functions allow for abstraction of actions, not just values
+		○ So you are abstracting the function itself, which is a simpler abstraction
+	• For example, take this function closure:
+		`function greaterThan(n) {
+			return m => m > n;
+		}
+		let greaterThan10 = greaterThan(10);
+		console.log(greaterThan10(11);
+		` -> true
+	• The 'greaterThan10' was a higher order function of the greaterThan function, which was a higher order function of 'm => m > n'
+	• I really need practice on this.
+Script Data Set
+	• This talks about a data set regarding language scripts
+		○ Maybe these are used later in the chapter?
+	• 'filter' is a standard array method that returns an array satisfying the test function passed as the argument
+		○ This is a higher order function that is a standard array method
+		○ This is a 'pure' function because it makes a new array that is returned. It does not modify the original array and it produces no side effects.
+Transforming with Map
+	• Like 'filter', 'map' is a standard array method that is a higher order function
+		○ Map takes an array and a function as arguments
+			§ The function defines a way to return the given array
+			§ For example, `map(my_objects, s => s.name));`
+				□ This transforms the array 'my_objects' by taking the array, given as argument 's', and returning the object's 'name' property because the return of the function argument is 's.name'
+[Reminder that the arrow notation lets you run a function with `parameters => return_value`, without needing a name for the function]
+Summarizing with Reduce
+	• This is another standard array method, 'reduce'
+		○ Called by `array_name.reduce(args)`
+	• The reduce method takes in the following parameters:
+		○ array
+		○ function
+		○ start value
+	• The method does the following:
+		`function reduce(array, combine, start){
+			let current = start;
+			for (let element of array){
+				current = combine(current, element);
+			}
+			return current;
+		}`
+	• It can be run like this:
+		`let array = [1, 2, 3, 4];
+		array.reduce((a, b) => a+b, 0);`
+		○ This takes the array, performs function of adding b to a, and starting at 0
+Composability
+	• Using higher order functions starts to make sense when composing a series of operations, and you call those functions to make the logic more clear
+	• Writing your own flat function may be faster when used than calling a series of higher order functions
+	• It depends on your goal, but in some cases the higher order functions can make the logic of the program more clear than a flat function
+Strings and Character Codes
+	• The 'some' array method is a higher order function that:
+		○ Takes a test function and tels if the function returns true for any elements of an array
+	• The example in this section attempts to write a funciton that returns the script used for a given unicode character code
+	• To find the character code in a string, there are some considerations to keep in mind:
+		○ Javascript strings are encoded as a sequence of 16-bit numbers, called 'code units'
+			§ This allows for 65,000 different characters, which isn't enough for all languages
+		○ UTF-16 was made to address this. It is a standard of using one 16-bit code for as many characters as possible, and then two 16-bit codes for the other characters
+			§ This is problematic, since some charactes can then be an array of two 16-bit codes instead of just a static code
+			§ But it's what we have right now
+		○ For example, consider a string of two emojis (which are encoded with two 16-bit numbers):
+			§ string.length returns 4, since it is made of two sets of two 16-bit numbers
+			§ string[0] is invalid since it's a half of the first character
+			§ string.charCodeAt(0) gives the code of the half character (which is not really a character)
+			§ string.charPointAt(0) does give the actual code for the two 16-bit code character
+				□ Note that this is the best function to use when trying to understand the full UTF-16 code for a character
+		○ Note that parsing over a char in a string of two  two 16-bit characters does output each character on their own, not the half character
+			§ This is good
+Recognizing Text
+	• The array method 'findIndex' finds the first value in the array that returns true for a function argument
+		○ Like 'indexOf', it returns '-1' if no element is found (not returning 'False')
+	• Remember the string method 'join' combines strings
+	• The example in the book for the text parsing is good, but I do not feel the need to take notes on it. I'll use it as a reference when working on the exercises.
+Summary
+	• The array method 'forEach' loops over the elements in an array
+	• Some array methods that are higher-order functions:
+		○ 'filter': takes array and function to make and return new array that contains elements that pass the function
+		○ 'map': Transform an array by making a new array with elements that are transformed with the given function
+		○ 'reduce': combine all elements in an array into a single value
+		○ 'findIndex': finds position of first element to match the function test
+Exercises included in this directory.

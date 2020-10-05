@@ -1,0 +1,115 @@
+Eloquent Javascript 3rd Edition Notes
+Chapter 1
+Values, Types, and Operators
+
+	• Bits are two valued things, usually '0' and '1'
+		○ In the computer, they can be high/low charge, strong/weak signal, or shiny/dull surface of disc. All of these can be seen as '0' and '1'
+	• 'Values' in javascript are units that carry data. They can be of type number, text, functions… Values are the basic unit in javascript.
+	• To make a value, call the name
+Numbers
+	• Values of type 'number'
+	• Javascript uses 64 bits, so numbers are limited to what can be created wuth 64 bits (2^64 different numbers, so not really a concern)
+	• Note that negative signs and decimals use some of those bits
+	• Using exponents can help reduce bit usage
+		○ `2.998e8'
+			§ This is 2.998*10^8
+	• Main lesson, all types of numbers are of type number. There are not 'floats', 'long', or 'int' type numbers. They're all just 'numbers'.
+Arithmatic
+	• You can do operations easily in javascript:
+		○ `100 + 4 * 11`
+	• The math signs are called 'operators'
+	• With no parentheses, it followds PEMDAS
+	• The '%' operator gets the remainder of division
+		○ Called 'modulo' in javascript
+Special Numbers
+	• `Infinity`, `-Infinity`, and `NaN` are type number values in javascript
+	• Note that the infinity values act like infinity in normal math
+	• `NaN` is an undefined value of type number
+		○ Stands for 'not a number'
+		○ You get this when doing `0/0` or `Infinity - Infinity`
+Strings
+	• 'strings' are value types that store text
+	• To set a string, you can use single quotes (''), double quotes (""), or backticks (``)
+	[For my reference, keep backticks for code for these notes]
+	• Newlines can be included in strings without escaping only when the string is quoted with backticks (``)
+	• '\' is how to escape.
+		○ `\n` is newline
+		○ `\t` is tab
+	• To escape a backslash, put two: `\\`
+	• Javascript uses Unicode, so emojis can be used
+		○ They do take up more 'characters' though because they use more than the 16 bit limit for strings in javascript
+	• You can concatenate strings together with `+`, but you cant remove with `-`
+		○ More on string functions later
+	• Backtick strings can span lines, and embed values
+		○ The official name of backtick strings is 'template literals'
+		○ `half of 100 is ${100 / 2}`
+			§ This returns the following:
+			§ 'half of 100 is 50'
+		○ Template literals can take information in `${}`, compute, and return as string
+Unary Operators
+	• `typeof` is technically an operator
+	• `console.log(typeof 4.5)`
+		○ This returns 'number'
+	• `typeof` is an operator that only needs one number, so it is an 'unary operator'
+		○ This is opposed to '+' and '/', which require two values. These are 'binary operators'
+	• `-` is also an unary operator, since it can be used to make number negative
+Boolean Values
+	• `true` and `false` are boolean values in javascript
+	• `console.log(3 > 2)`
+		○ This returns 'true'
+	• Comparisons give boolean values to the binary operations
+		○ Fun note, you can compare strings too. Lower case and lower letter in the alphabet get greater value.
+	• Comparisons:
+		○ `<`
+			§ Less than
+		○ `>`
+			§ Greater than
+		○ `<=`
+			§ Less than or equal to
+		○ `>=`
+			§ Greater than or equal to
+		○ `!=`
+			§ Not equal to
+		○ `==`
+			§ Equal to
+			§ Note that `NaN` can never be equal to itself
+Logical Operators
+	• `&&` is how to say 'and'
+	• `||' is how to say 'or'
+	• `!` is how to say 'not'
+		○ For example, `!true` is equal to 'false'
+	• `boolean_value ? value_1 : value_2`
+		○ This is a ternary (3) value conditional operator. When the boolean value is true, the output is the value after the question mark. When the boolean is the false, the output is the value after the colon.
+Empty Values
+	• `null` and `undefined` are when there is no value for the value
+Automatic Type Conversion
+	• Javascript can convert types that would otherwise give errors in other languages. For example:
+		○ `console.log("5" - 1)` gives '4'
+		○ But it's also weird
+		○ `console.log("5" + 1)` gives '51'
+	• When an operator is used with the 'wrong' type of value, it uses a set of rules that may not make sense. This is called 'coercion'.
+	• Try not to make these errors.
+	• Note that the following things are useful and do make sense actually:
+		○ `console.log(0 == null)`
+			§ This is 'false'
+		○ `console.log(0 == false)`
+			§ This is 'true'.
+		○ `console.log("" == false)`
+			§ This is 'true'
+	• To not do type conversion in comparisons, you can use the following:
+		○ `===`
+			§ Is actually 'equal to', no type conversion
+		○ `!===`
+			§ Is actually 'not equal to', no type conversion
+Short Circuting of Logical Operators
+	• `||` and `&&` can do some weird stuff
+	• `||` chooses the value on the left when the left is not 'false'. Otherwise, it picks the right.
+	• `console.log(null || "user")`
+		○ Returns 'user'
+	• `console.log("Josh" || "user")`
+		○ Returns 'Josh'
+	• This is useful to help set default values. All numbers are 'true', while 0, NaN, and "" are false.
+	• `&&` is the opposite. It returns the left if the left is false. Otherwise returns right.
+	• Essentially, only the right is returned when something is wrong.
+
+Next chapter is on making basic programs.
