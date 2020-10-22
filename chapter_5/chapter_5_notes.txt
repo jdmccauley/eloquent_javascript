@@ -96,3 +96,5 @@ Summary
 		○ 'reduce': combine all elements in an array into a single value
 		○ 'findIndex': finds position of first element to match the function test
 Exercises included in this directory.
+
+Note the array method .some() runs a given test on all elements in the array, and returns true if any elements are true.
