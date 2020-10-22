@@ -26,4 +26,7 @@ This makes result be value1 if condition is true, value2 if condition is false
 
 /*
 I give up on this problem for now, since it requires dependencies written by the book, and that wasn't even explained in the first place.
+I guess the exercises are meant to be run in the website by default, not in node.js.
+The book keeps all dependencies.
+Hold on this problem until later.
 */
