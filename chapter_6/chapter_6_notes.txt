@@ -1,0 +1,247 @@
+Eloquent Javascript 3rd Edition Notes
+
+Chapter 6
+The Secret Life of Objects
+
+	• Object-oriented programming is a set of techniques that use objects (and related concepts) as a central principle of program organization
+	• OOP (object-oriented programming) has shaped JavaScript's design, so it is important to understand how those ideas can be applied in the language
+	• Note that chapter 4 introduced objects, and this chapter is about using them in practice
+
+Encapsulation
+	• The core idea of OOP is to divide programs into smaller pieces and make each piece responsible for managing its own state
+		○ This idea is what allows actions regarding that object's state local to itself, and the rest of the program does not affect it
+	• Objects interact with the main program and each other through interfaces
+		○ Interfaces are functions/bindings that are abstracted
+	• Properties and methods at the interface of an object are 'public', and those that cannot be accessed by outside code are 'private'
+	• Javascript does not allow for disringuishing of public and private properties, in the language itself
+		○ It is still used, and in general private properties are started with the '_' character (underscore) to denote private properties
+	• Encapsulation is separating interface from implementation, or the fact that there are 'private' properties and methods in objects
+		○ This prevents the main code from modifying the state of the property by accident
+		○ Encapsulation is a way to safeguard properties/methods in software
+	• So encapsulation is making a variable un-global, or 'encapsualted' (private) in an object
+
+Methods
+	• Methods are properties that hold function values
+		○ So all bindings in objects are 'properties', while 'methods' are specifically function bindings
+	Example:
+	```
+	let rabbit = {}; //this makes the object 'rabbit'
+	rabbit.speak = function(line){
+		console.log(`The rabbit says '${line}'`);
+	};
+	rabbit.speak("I'm alive.");
+	OUTPUT: "The rabbit says 'I'm alive.'"
+	```
+	This made a method for the object 'rabbit'.
+	• Methods are called by `object.method()`
+	• When the binding 'this' is called in an object method, it's referring to the object itself
+		○ It's a very important binding, and is common in many languages
+			§ For example, all python classes use 'self' to refer to the objecct in its methods
+	• You can also declare global functions and include them as methods in objects
+	Following the example from above:
+	```
+	function speak(line) {
+		console.log(`The ${this.type} rabbit says '${line}'`);
+	};
+	let rabbitWhite = {type: "white", speak}; //this makes an object with property type and method speak
+	```
+	• You can explicitly pass the 'this' parameter if you want, by object.call(args)
+		○ This treats 'this' as the first parameter by default, and the other arguments are treated as normal parameters
+	• 'this' is always included in all functions, but it can only be used if an object is given the function as a method
+		○ Arrow functions are different in that they can see 'this' outside their scope, such that they can use 'this' to refer to a function if self if the function is used by 'function.call()'
+	
+Prototypes
+	• All objects have a parent from which they're derived from, so they always inherit those properties and methods
+		○ This parent is the 'prototype' or fallback object that is used when the property/method called for the object doesn't exist yet
+		○ For example, all objects have a method .toString() that returns a string representation of the object
+	• The prototype of all objects is 'Object.prototype'
+	• You can get the prototype of the object with the method Object.getProtoypeOf(object)
+		○ This fails if you do Object.getPrototypeOf(Object.prototype) since there is no parent of the only parent
+	• Similarly, all functions have the prototype Function.prototype
+		○ And arrays Array.prototype
+	• `Object.create(prototype)` lets you make an object from the called prototype
+		○ So `let my_object = Object.create(Object.prototype)` is the default, and you can make any object a 'prototype'
+		○ It's a way to say 'make an object like this one' but without classes
+
+Classes
+	• The JavaScript prototype system is a similar idea to 'classes'
+	• Classes are a common OOP concept, and they are ways to define properties and methods for a object, and making objects based off of that class is called making an 'instance' of that class
+	• Prototypes help define properties for all instances of a class with the same values for all properties
+	• Constructor functions are functions that make an object based on a protoype, but also assign instance-specific property values
+	Example:
+	function makeObject(my_property){
+		let my_object = Object.create(protoObject);
+		my_object.property = my_property;
+		return my_object;
+	}
+	• Javascript has a default constructor named 'new' that's easy to use:
+		`let new_object = new my_object("property");`
+	• Constructors automatically have the prototype Object.prototype, but you can change that
+	• By convention, constructor functions are started with capitol letters
+
+Class Notation
+	• Javascript classes are constructor functions with a prototype property
+	• Class declaration example:
+	```
+	class myObject {
+		construcor(type) {
+			this.type = type;
+		}
+		someFunc(arg) {
+			command;
+		}
+	}
+	let new_obj = new myObject("new");
+	```
+	• The current JavaScript language treats classes as prototypes, and the prototypes can only be given methods, not properties
+		○ Properties can be assigned in constructor functions only
+	• All classes must have a function called 'constructor', since it constructs the object itself
+		○ Before 2015 all classes were just constructor functions with prototype properties
+		○ Now the constructor function is just included in the class declaration
+	• Classes can be used in statements and expressions
+		○ When used in expressions, they just produce the constructors as values
+
+Overriding Derived Properties
+	• Adding properties to objects do not change the property values (or property existance) in prototypes
+	• If you change property values in a prototype, the values will change in all subsequent objects, but the reverse is not true
+		○ This applies to methods as well since methods are properties
+
+Maps
+	• Map is a special object that associates values (as keys) to other values
+	• This is important because it’s a way to have an object contain a dictionary but not have key/value pairs returned when prototype properties are called
+		○ Say you don't want .toString() to return true
+		○ You could do this: `let my_object = Object.create(null);`
+		○ Or you could use Map() since JavaScript made it for this purpose
+	• Map() is a special object and it has default methods that are made for this key/value structure
+		○ Map.set("key", "value); lets you set a value to a key
+		○ Map.get("key"); lets you return the value for that key
+		○ Map.has("key"); lets you return if the key exists
+	• Note that object.keys() returns an objects own keys and not those of the prototype
+	• object.hasOwnProperty(key) returns if the property exists in a plain object but not in the prototype, just like Map.has(key)
+
+Polymorphism
+	• Polymorphism is when two function calls refer to the same object method
+	• For example, `String` and `toString` both call to the toString method in the Object.prototype
+	• This potential for functions to be defined that call an already-defined object interface is very useful
+
+Symbols
+	• It is a bad idea to make multiple interfaces with the same name, but unfortunately it is possible with symbols
+	• Property names are typically strings, but they can also be Symbols
+		○ Symbols are values created with the Symbol() function
+	• Symbols are unique, and you can't make the same symbol swice
+		○ You can have a string and a Symbol of the same name, just not two strings or two symbols
+	• How to use symbols:
+	```
+	let sym = Symbol("my_symbol");
+	console.log(my_symbol == Symbol("my_symbol")); //returns false because you cannot have two symbols of the same name
+	my_object.prototype[my_symbol] = 55;
+	console.log(my_object[my_symbol]); //returns 55
+	```
+	• So, when a symbol is given to a object, call it in brackets: object[symbol_name]
+
+The Iterator Interface
+	• When using objects in for/of loops, they're expected to be iterable
+		○ This assumes that there is a 'iterator' property that allows the object to be iterated, like 'i' in almost every loop written
+	• By default, object have an iterator within the Symbol function, given as object[Symbol.iterator]()
+	• Similarly, this iterator object has three properties:
+		○ next()
+			§ Returns the next result
+		○ value()
+			§ Value of the result
+		○ done()
+			§ Property that returns true when there are no more results to be interated
+	Example from the book for the object "OK" (I guess an object that is a string where the value is only "OK":
+	```
+	let okIterator = "OK"[Symbol.iterator]();
+	console.log(okIterator.next());
+	// → {value: "O", done: false}
+	console.log(okIterator.next());
+	// → {value: "K", done: false}
+	console.log(okIterator.next());
+	// → {value: undefined, done: true}
+	
+	```
+	• The object methods 'get' and 'set' can retrieve and update elements in a object
+	• There are great examples of using a matrix to iterate in this chapter, and I'll leave them in the book only, since they can be referenced there as needed
+
+Getters, Setters, and Statics
+	• Assigning value properties to objects isn't the most straightforward, and that isnt' always necessary to do
+		○ You can assign properties to objects that are methods, such that the methods return values as if they were values in the first place
+		○ This prevents the need to store data in objects, instead functions are used
+	• These method types are 'getters' and 'setters', where getters return a value, and setters assign a value as a property
+	• For example, Map objects have a size() property that tells you how many keys are stored, and this a just a function that returns a value
+	• To make getters and setters, add `get` and `set` in front of the method names
+	Example:
+```
+	class myObject {
+		constructor(parameter){
+			stuff;
+		}
+		get size(){
+			return this.length;
+		}
+		set name(name){
+			this.name = name;
+		}
+	}
+	```
+	• In some cases, you want to add a property to an object, but not include it in the prototype, which would be done if you added a property in the constructor function
+		○ To do this, use the `static` method assignment
+		○ I might need more clarification on this
+	Example:
+	```
+	class myObject {
+		constructor(parameter){
+			stuff;
+		}
+		static someFunc(parameter){
+			stuff;
+		}
+	}
+	```
+	• Static properties are stored in the constructor, but not the prototype
+		○ So all instances of the class will have the static property, but prototypes will not
+
+Inheritance
+	• JavaScript's prototype system makes it possible to create a new class that has all of the old properties, and new ones
+		○ This is called inheritance in OOP: a new calss inherits properties and behaviors from an old class
+	• To make a new class that inherits from another in JavaScript, use `extends`
+	Example:
+	```
+	class my_new_object extends my_object {
+		constructor(){
+		}
+		super.new_method(){
+		}
+	}
+	```
+	• The new derived classes are called 'subclasses' of the original 'superclass' (where the superclass is based on a prototype
+	• Using `super` is how to refer to properties/methods from the superclass, and modify their behavior as needed in the subclass
+	• Encapsulation and polymorphism are ways to separater pieces of code in OOP, while inheritance ties pieces of code together
+	• In general, inheritance is something to only use if absolutely needed, since it can complicate things very quickly when you have a long inheritance tree
+
+The Instanceof Operator
+	• To find if an object was derived from a specific class, use the binary operator `instanceof`
+	Example:
+	```
+	console.log(my_new_object2 instanceof my_new_object); //true
+	```
+	• This also works for Array and Object: note almost every object is an instance of 'Object' (prototype)
+
+Summary
+	• Objects have prototypes, which are other objects
+		○ Objects can act as though they have a property that doesn't exist if the prototype does have that property
+		○ Prototypes are the backup
+	• Constructors are functions that usually start with a capitol letter and can be used with the `new` operator to create new objects
+		○ New objects' prototype can be found with the `prototype` property
+	• Put all properties and valeus for a type of object into the prototype, as good practice
+		○ Classes should have the methods
+	• class defines a constructor and prototype
+	• Getters and setters call methods to get object properties
+	• Static methods are methods stored in a class's constructor, rather than prototype]
+	• `instanceof` can tell if an object is an instance of a constructor
+	• Objects are given interfaces to let them be modified and used, and all other properties of the object that are not given interfaces are hidden
+	• There can be more than one way to implement an interface, this is a polymorphism
+	• When making multiple classes that differ only in small ways, it can be useful to make subclasses of the superclasses, making the subclass inherit parts of the superclass
+
+Exercises included in this directory.
