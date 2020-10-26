@@ -23,7 +23,6 @@ class Vec {
     constructor(xValue, yValue) {
         this.x = xValue;
         this.y = yValue;
-        //this.length = Math.sqrt((this.x * this.x) + (this.y * this.y));
     }
     plus(vector) {
         let result = new Vec(0,0);
@@ -37,11 +36,12 @@ class Vec {
         result.y = this.y - vector.y;
         return result;
     }
+    get length(){
+        return Math.sqrt(Math.pow(this.x, 2) + Math.pow(this.y, 2));
+    }
 }
 
 //main
 console.log(new Vec(1, 2).plus(new Vec(2, 3)));
 console.log(new Vec(1, 2).minus(new Vec(2, 3)));
-
-//length is supposed to be a 'getter' function, which I haven't learned yet
 console.log(new Vec(3, 4).length);

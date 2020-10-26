@@ -45,7 +45,7 @@ Methods
 	};
 	let rabbitWhite = {type: "white", speak}; //this makes an object with property type and method speak
 	```
-	• You can explicitly pass the 'this' parameter if you want, by object.call(args)
+	• You can explicitly pass the 'this' parameter if you want, by Object.prototype.call(object_to_be_this, args)
 		○ This treats 'this' as the first parameter by default, and the other arguments are treated as normal parameters
 	• 'this' is always included in all functions, but it can only be used if an object is given the function as a method
 		○ Arrow functions are different in that they can see 'this' outside their scope, such that they can use 'this' to refer to a function if self if the function is used by 'function.call()'
@@ -132,10 +132,12 @@ Symbols
 		○ You can have a string and a Symbol of the same name, just not two strings or two symbols
 	• How to use symbols:
 	```
-	let sym = Symbol("my_symbol");
-	console.log(my_symbol == Symbol("my_symbol")); //returns false because you cannot have two symbols of the same name
-	my_object.prototype[my_symbol] = 55;
-	console.log(my_object[my_symbol]); //returns 55
+    let sym = Symbol("name");
+    console.log(sym == Symbol("name"));
+    // → false since you can't have two symbols
+    Rabbit.prototype[sym] = 55;
+    console.log(blackRabbit[sym]);
+    // → 55
 	```
 	• So, when a symbol is given to a object, call it in brackets: object[symbol_name]
 
