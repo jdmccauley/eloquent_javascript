@@ -1,0 +1,43 @@
+Eloquent Javascript 3rd Edition Notes
+
+Chapter 7
+Project: A Robot
+
+	• The purpose of these project chapters is to read and understand a project that implements the theories and practices explained the previous chapters
+	• There are exercises at the end of the chapter, just like other chapters
+	• Take the time to read and understand the proposed program
+	• For this project, the program is to be a robot that picks up and delivers mail
+	• Code for the project is provided, and the chapter outlines the purpose and logic behind it's design
+	• For simplicity, I'll download the code and annotate it in the program file with my own notes, and notes from the book
+	• If I find concepts worth noting outside of the program, I'll include them in these notes
+
+Project notes
+	• robot.js is the main program, and will have my notes. Note that originally there were no comments in the code, so all comments are mine.
+	• Reader is told that the first idea is likely to make objects for the robot, parcels, and all places, and assign properties for their states
+		○ This is not ideal, since making many objects with their own states to manage complicates programs very fast.
+		○ Instead, the project has an object for the whole village, and every new STATE is made into a new object of that original one
+		○ No states are modified, just new objects with states are made
+	• Most JavaScript values can be changed, so it takes effort to prevent change
+		○ Object.freeze lets updates to the object's properties be ignored, so it stays the same as before it was 'frozen'
+	• The author tries not to modify objects unless absolutely necessary, so in general he just makes new objects to reflect new state changes
+		○ This makes it easier to not forget states of any object
+		○ This is the approach the author used in the project 
+
+Project code inclued in this directory/project.
+Note that animations are included for browser rendering, but that is for the purpose of visualizaiton only, not understanding animation yet. That topic is covered later in the book.
+Exercises included in this directory.
+
+Exercises:
+	• Note that importing functions from other js files isn't as straight forward as python's `import some_python_file` method
+	• For functions to be used in other js files, you need to do the following:
+	1. `let my_module = require("./path/to/file.js);`
+		a. Note the 'js' isn't needed, but can be added.
+	2. In the js file to import, add a line `modules.export = bindings_to_export`
+		a. By default, no bindings can be imported into other js files unless specified
+		b. You have to export the bindings in the original file, so they are noted as bindings that can be used after any 'require' is called
+		c. Note that only variables can be exported, so you need to declare all functions as variables to export them.
+			i. Ex: module.exports = {
+			my_func: my_func,
+			func2: func2,
+			};
+Call the functions/objects from the file by `my_module.obj_or_func`.
