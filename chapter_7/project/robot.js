@@ -290,7 +290,7 @@ function goalOrientedRobot({place, parcels}, route) {
 
 /* Runs in book, not included in original code.
 */
-runRobot(VillageState.random, randomRobot);
+//runRobot(VillageState.random, randomRobot);
 // → Moved to Marketplace
 // → Moved to Town Hall
 // → …

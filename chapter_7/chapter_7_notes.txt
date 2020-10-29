@@ -40,4 +40,4 @@ Exercises:
 			my_func: my_func,
 			func2: func2,
 			};
-Call the functions/objects from the file by `my_module.obj_or_func`.
+	3. Call the functions/objects from the file by `my_module.obj_or_func`.
