@@ -1,0 +1,128 @@
+Eloquent Javascript 3rd Edition Notes
+
+Chapter 8
+Bugs and Errors
+
+	• Flaws in programs are typically called 'bugs'
+	• There's typically two types of bugs:
+		○ Those that come from confused thoughts
+		○ Those from an error putting the thought into code
+	• The second is usually a simple fix, while the former takes re-thinking to fix
+
+Language
+	• JavaScript's weak typing system can be a huge source of bugs
+	• Grammatical errors are typically pointed out as errors immediately upon compilation
+	• Some computations that aren't valid result in a 'NaN' (not a number), and continue being used in the program until a major error is produced
+		○ These are hard to find where the wrong values were produced in the first place
+	• The process of finding bugs is called 'debugging'
+
+Strict Mode
+	• You can make JavaScript a little stricter? This is done by enabling 'strict' mode
+		○ Putting the string 'use strict' at the top of a file or function body enables this
+		Example:
+		```
+		function canYouSpotTheProblem() {
+		  "use strict";
+		  for (counter = 0; counter < 10; counter++) {
+		    console.log("Happy happy");
+		  }
+		}
+		
+		canYouSpotTheProblem();
+		// → ReferenceError: counter is not defined
+		```
+	• As can be seen, 'use strict' catches errors in bindings, not just when a binding is called
+		○ For example, if you forget to say 'let' in a binding, a global binding is made by default
+		○ 'use strict' prevents this and returns an error on compilation
+		○ This doesn't work if a global binding for that value is already made though, so loops with this bug would not see this error returned
+	• 'this' holds a value of 'undefined' in functions not called as methods when in strict mode
+		○ Without strict mode, 'this' in functions that aren't methods use a global scope 'this' object
+		○ Weird, never ran into that before
+	Example:
+	```
+	function Person(name) { this.name = name; }
+	let ferdinand = Person("Ferdinand"); // oops
+	console.log(name);
+	// → Ferdinand
+	```
+	That created a global variable 'name' with the value 'Ferdinand'.
+	The function has no return value, so the name got made global.
+	Now on strict mode:
+	```
+	"use strict";
+	function Person(name) { this.name = name; }
+	let ferdinand = Person("Ferdinand"); // forgot new
+	// → TypeError: Cannot set property 'name' of undefined
+	```
+	• Constructors created with `class` throw an error if they are not called with 'new'
+	• More strict mode:
+		○ Functions cannot have multiple parameters of the same name
+		○ `with` statement is removed
+	• So in general, it's likely a good idea to include "use strict" in all JavaScript programs for debugging
+
+Types
+	• Types are inferred in JavaScript
+		○ Mistakes arise when these 'inferences' are wrong for the program
+	• Typing in a 'strongly typed' language looks like this:
+	str A = "5";
+	Instead of 
+	let A = "5";
+	Since in the JavaScipt, A could be used as both a string and a number.
+	• TypeScript is a typed superset of JavaScript
+		○ It's recommended to give more strict typing to programs
+	• The book is not going to go into use of TypeScript, it's going to continue using JavaScript
+
+Testing
+	• Running the program is often times the way to see if it works
+	• Running programs to find bugs is a tried and true way to test, but it's much faster to write test functions that do the test automatically
+	• An example test is a simple function that verify if something exists or has the right value
+	• There are software that run collections of tests in 'test suites', these are called 'test runners'
+		○ The book doesn't mention any of these
+	• Persistent objects in code make debugging easier than objects that change state, so following the paradigm of making persistent objects can alleviate bugs in the future
+
+Debugging
+	• Finding the actual source of the error can be an issue
+		○ The compiler can tell where the error is encountered, but this is the first INSTANCE of the error being an issue, not the error coming up in the first place
+		○ So where the compiler points to is not always the source of the bug
+	• In general, think about why bugs come up first before changing code, not just changing code to see what works
+	• console.log() is a tried and true way to see bugs
+	• Browsers typically have a 'debugger' , which stops progams at a 'breakpoint', so you can see what values are at that instant
+		○ This varies browser to browser though
+	• Adding the line 'debugger' to a program will typically pause a program when it's run to that point
+
+Error Propagation
+	• When you release programs out to the real world, any number of issues tend to arrise
+		○ The user is as much a variable as anything in the program
+	• It is generally a good idea to write programs to assign values that DO work for when a user assigns a invalid value to a binding
+		○ This lets the main program continue and not crash, that way you can tell the user they were wrong elegantly
+
+Exceptions
+	• Exception handling is when you can 'catch' an error and execute code in the case that an error is 'caught'
+	• Exception handling is common in many programming languages, and they tend to the following for that: 'raise'/'throw', 'catch', 'try'
+		○ I've seen this in python but not known how to use it yet
+	• Exceptions make it possible to  'raise' or 'throw' an exeption, which can be any value
+		○ Raising an exception breaks the function call stack and jumps to a 'try' block
+		○ This is called 'unwinding the stack'
+	• If a 'try' block has a 'catch' function to catch exceptions, the try block will execute when a exception is 'thrown'
+	• If a try/catch block is run and does so without more errors, the program continues with all code below that block
+	• The 'Error' constructor is a standard JavaScript constuctor that has a 'message' property
+	Example:
+	```
+	function myfunc(args){
+		stuff;
+		if (condition){}
+		else{
+		throw new Error("you messed up");
+		}
+	try {
+	console.log("I told you");
+	} catch (error) {
+		console.log(error)
+	}
+	```
+	• A 'stack trace' is a log of where the error occured and which functions failed because of it
+		○ This can be accessed by Error.stack
+	• Exceptions let you run code with errors and show the errors in a nice way to the programmer and user, and they let code run even when the errors occur midway
+
+Cleaning Up After Exceptions
+Continue here.
