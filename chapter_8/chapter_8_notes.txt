@@ -125,4 +125,54 @@ Exceptions
 	• Exceptions let you run code with errors and show the errors in a nice way to the programmer and user, and they let code run even when the errors occur midway
 
 Cleaning Up After Exceptions
-Continue here.
+	• Since exceptions are their own control flow, it's important to plan for cases where the exception happens and some blocks of regular code are not executed
+	• Making functions that produce fewer side effects and not relying on those helps with cases of exceptions
+		○ Similarly, making functions that produce new values instead of changing existing data helps
+	• The 'finally' block executes regardless if whether a try block completely executes
+		○ It runs when an exception is thrown in the 'try' block adn the stack continues
+	• Anticipating and writing good exception handling is hard, but it's invaluable
+		○ I notice how helpful it is when I call default functions and get exceptions, so I can debug my code
+		○ It may be worth it to invest in practicing exception handling so I can give back to the developer community, especially when I make shareable code
+
+Selective Catching
+	• When exceptions are made without being caught, the behaviour differs between environments
+		○ Browsers typically give a description of the error in the console
+		○ Node.js aborts the whole process when any unhandeled exception occurs
+			§ As annoying as this is, I like it?
+			§ The book doesn't go into Node.js until chapter 20, but I've been learning how to use it on my own
+			§ It does give exceptions very quickly, and I guess the browser isn't as quick to show the exeptions
+	• When a 'catch' body is entered, it is known that something in the 'try' body caused an exception, but not necessarily what/which exception got raised
+		○ This is because by default, 'catch' can catch any exception
+		○ JavaScript doesn't have default 'selective catching', but you can write your own way to do it
+	Side note: The `for (;;)` loop never terminates on its own, it only does when there is a break
+	• A way to check if an exception is the one we expect, you can compare the exception.message property against what we expect
+	Example:
+	```
+	class myError extends Error {}
+	//This makes myError an instance of the Error constructor
+	some_block{
+		throw e;
+	} catch (e) {
+		if (e instanceof myError){
+			do stuff;
+		}
+	}
+	```
+
+Assertions
+	• Assertions check in a program that a value is what it's intended to be
+	• The book doesn't mention an `assert` function, it talks about programming functions to throw exceptions when a value is not its intended value
+		○ This does work as an 'assertion', but JavaScript seems to have added an assert method at some point:
+			§ https://www.w3schools.com/nodejs/met_assert.asp
+			§ https://developer.mozilla.org/en-US/docs/Web/API/console/assert
+	• Either way, assertions are good to use in tests, not so much in main programs
+
+Summary
+	• Finding and fixing bugs is a major part of programming
+		○ Automated tests make this easier
+	• Problems caused by things outside of the program should be handeled as much as possible with exceptions or special return values
+	• Throwing exceptions unwinds the call stack until the next try/catch block, or the bottom of the stack
+		○ Exception values are given to catch blocks, and those blocks should identify the exception and handle it
+	• For unpredictable exceptions, the finally block always runs when the try/catch block finishes
+
+Exercises will be included in the directory.
