@@ -39,17 +39,16 @@ const box = {
 
 //function to write as part of the exercise:
 function withBoxUnlocked(body) {
-    // if (box.locked == false){
-    //     body();
-    //     console.log("Avast, ye box already be unlocked.")
-    //     return;
-    // }
-    box.unlock();
+    if (box.locked == false){
+        body();
+        console.log("Avast, ye box already be unlocked.")
+        return;
+    }
     try {
-      //  box.unlock()
+        box.unlock()
         body();
     } catch (e) {
-        console.log(e);
+        //Do nothing, just lock the box with finally
     } finally {
         box.lock();
     }
@@ -59,11 +58,7 @@ function withBoxUnlocked(body) {
 withBoxUnlocked(function() {
     box.content.push("gold piece");
 });
-//This causes no errors.
 
-console.log("Is locked from first main command?", box.locked);
-
-  
 try {
     withBoxUnlocked(function() {
         throw new Error("Pirates on the horizon! Abort!");
@@ -72,22 +67,4 @@ try {
     console.log("Error raised: " + e);
 }
 console.log(box.locked);
-// → true
-
-//testing
-// box.unlock();
-// console.log(box.content);
-// box.lock();
-
-// box.unlock();
-// box.lock();
-
-// try {
-//     withBoxUnlocked(function() {
-//         throw new Error("Pirates on the horizon! Abort!");
-//     });
-// } catch (e) {
-//     console.log("Error raised: " + e);
-// }
-
-  
+// → true  
