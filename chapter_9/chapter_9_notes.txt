@@ -1,0 +1,37 @@
+Eloquent Javascript 3rd Edition Notes
+
+Chapter 9
+Regular Expressions
+
+	• Regular expressions are ways to describe patterns in strings, and they are part of many languages, including JavaScript
+		○ They are used to find patterns in strings
+	• You can use regular expressions in JavaScript, and they work the same way in bash, python, etc
+	• They can be difficult to use correctly, but they do work
+
+Creating a Regular Expression
+	• In JavaScript, a regular expression is a type of object
+		○ It can be made with the `RegExp` constructor, or made by enclosing a value in / characters
+	Example: these are both regular expressions
+	```
+	let re1 = new RegExp("abc");
+	let re2 = /abc/;
+	```
+		○ These both are regex (Regular Expression) for the pattern 'abc'
+		○ When using the RegExp constructor, the string is passed as a quoted string, but as the value, they do not have quotes
+	• While all regex values are encased in two forward slashes (/), backslashes are used as escape characters
+		○ Some characters like '+' are special, so to be treated as string they need to be escaped: \+
+
+Testing for Matches
+	• Regular expressions in JavaScript have many methods, where the simplest one is `test`
+		○ If you pass a string to the method on the regex object, it returns a Boolean telling if the string matches the expression
+	Example:
+	```
+	let re1 = /abc/;
+	console.log(re1.test("abcde));
+	//true
+	```
+	• A regex of only nonspecial characters represents a sequence of those characters
+	• So with regex.test(string), if the regex object value occurs anywhere in the string, the test will return true
+
+Sets of Characters
+Continue here.
